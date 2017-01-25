@@ -8,5 +8,7 @@ public class AwsLambdaLocalRestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AwsLambdaLocalRestApplication.class, args);
+
+
 	}
 }
