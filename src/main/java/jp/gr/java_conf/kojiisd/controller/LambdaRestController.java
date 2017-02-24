@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * @author kojiisd
@@ -21,14 +22,26 @@ public class LambdaRestController {
     @Value("${lambda-rest.target}")
     private String targetClassPath;
 
-    @RequestMapping(value = {"lambdalocal", "lambdalocal/"}, method = RequestMethod.POST)
-    public String index(@RequestBody String input) throws Exception {
+    @RequestMapping(value = {"lambdalocalstr", "lambdalocalstr/"}, method = RequestMethod.POST)
+    public String indexStr(@RequestBody String input) throws Exception {
         Class targetClass = Class.forName(this.targetClassPath);
         Object targetObject = targetClass.newInstance();
         Context context = createDefaultContext();
 
         Method targetMethod = targetObject.getClass().getMethod("handleRequest", String.class, Context.class);
         targetMethod.invoke(targetObject, input, context);
+
+        return "Success";
+    }
+
+    @RequestMapping(value = {"lambdalocalmap", "lambdalocalmap/"}, method = RequestMethod.POST)
+    public String indexMap(@RequestBody Map<String, Object> inputMap) throws Exception {
+        Class targetClass = Class.forName(this.targetClassPath);
+        Object targetObject = targetClass.newInstance();
+        Context context = createDefaultContext();
+
+        Method targetMethod = targetObject.getClass().getMethod("handleRequest", Map.class, Context.class);
+        targetMethod.invoke(targetObject, inputMap, context);
 
         return "Success";
     }
