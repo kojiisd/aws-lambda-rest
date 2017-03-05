@@ -108,7 +108,12 @@ public class LambdaRestController {
 
             @Override
             public LambdaLogger getLogger() {
-                return null;
+                return new LambdaLogger() {
+                    @Override
+                    public void log(String s) {
+                        System.out.println(s);
+                    }
+                };
             }
         };
     }
